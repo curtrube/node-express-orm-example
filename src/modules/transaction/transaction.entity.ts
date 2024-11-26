@@ -12,6 +12,9 @@ export class Transaction {
   @Property()
   amount!: number;
 
+  @Property()
+  date!: Date;
+
   @ManyToOne()
   user!: User;
 }
