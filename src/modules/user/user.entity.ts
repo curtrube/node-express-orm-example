@@ -6,16 +6,16 @@ export class User {
   @PrimaryKey()
   id!: number;
 
-  @Property({ unique: true, columnType: 'character varying(100)' })
+  @Property({ unique: true, length: 100 })
   email!: string;
 
   @Property()
   password!: string;
 
-  @Property({ columnType: 'character varying(50)' })
+  @Property({ length: 50 })
   firstName!: string;
 
-  @Property({ columnType: 'character varying(50)' })
+  @Property({ length: 50 })
   lastName!: string;
 
   @OneToMany({ mappedBy: 'user' })
