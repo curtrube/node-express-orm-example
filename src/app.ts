@@ -18,9 +18,10 @@ export async function bootstrap(port = 3000) {
   app.use(express.json());
 
   // Middleware to manage MikroORM's request context
-  // app.use((req, res, next) => {
-  //   RequestContext.create(db.em, next); // Create a new DB context for each request
-  // });
+  // https://stackoverflow.com/questions/71117269/validation-error-using-global-entity-manager-instance-methods-for-context-speci
+  app.use((req, res, next) => {
+    RequestContext.create(db.em, next); // Create a new DB context for each request
+  });
 
   app.use(userRouter);
 

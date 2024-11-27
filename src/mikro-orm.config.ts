@@ -2,7 +2,6 @@ import { defineConfig } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 
-// no need to specify the `driver` now, it will be inferred automatically
 export default defineConfig({
   dbName: 'expense_tracker',
   user: 'postgres',

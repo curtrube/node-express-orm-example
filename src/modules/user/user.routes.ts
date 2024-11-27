@@ -1,19 +1,29 @@
 import { Router } from 'express';
 import { initORM } from '../../db.js';
-import { EntityData } from '@mikro-orm/core';
-import { User } from './user.entity.js';
+import { z } from 'zod';
+
+const userSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+});
 
 export const userRouter = Router();
 
 userRouter.post('/sign-up', async (req, res) => {
   const db = await initORM();
-  const body = req.body as EntityData<User>;
-  //   if (!body.email || !body.firstName || !body.lastName || !body.password) {
-  //     throw new Error('One of required fields is missing: email, firstName, lastName, password');
-  //   }
-  //   const user = new User(body.email, body.password, body.firstName, body.lastName);
-  //   const dbResponse = await
-  if (await db.user.exists(body.email as string)) {
+
+  const dto = userSchema.parse(req.body);
+
+  if (await db.user.exists(dto.email)) {
     throw new Error('This email is already registered, maybe you want to sign in?');
   }
+
+  const user = db.user.create(dto);
+  await db.em.flush(); // no need for explicit `em.persist()` when we use `em.create()`
+
+  console.log(`User ${user.id} created`);
+
+  res.send(user);
 });
