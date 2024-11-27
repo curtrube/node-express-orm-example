@@ -17,8 +17,8 @@ userRouter.post('/sign-up', async (req, res) => {
   const dto = userSchema.parse(req.body);
 
   if (await db.user.exists(dto.email)) {
-    // throw new Error('This email is already registered, maybe you want to sign in?');
-    res.status(400).send('This email is already registered, maybe you want to sign in?');
+    throw new Error('This email is already registered, maybe you want to sign in?');
+    // res.status(400).send('This email is already registered, maybe you want to sign in?');
   }
 
   const user = db.user.create(dto);
