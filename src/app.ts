@@ -25,10 +25,10 @@ export async function bootstrap(port = 3000) {
 
   app.use(userRouter);
 
-  app.get('/user', async (req, res) => {
-    const user = await db.em.findOneOrFail(User, 1);
-    res.send(user);
-  });
+  // app.get('/user', async (req, res) => {
+  //   const user = await db.em.findOneOrFail(User, 1);
+  //   res.send(user);
+  // });
 
   // app.post('/sign-up', async (req, res) => {
   //   //   const db = initORM();
@@ -45,7 +45,7 @@ export async function bootstrap(port = 3000) {
 
   // Start the server
   const server = app.listen(port, () => {
-    console.log(`App on ${port}`);
+    console.log(`App listening on ${port}`);
   });
 
   return { app, server };
