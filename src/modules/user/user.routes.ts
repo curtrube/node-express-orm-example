@@ -11,6 +11,7 @@ const userSchema = z.object({
 
 export const userRouter = Router();
 
+// Register new user
 userRouter.post('/sign-up', async (req, res) => {
   const db = await initORM();
 
@@ -24,7 +25,16 @@ userRouter.post('/sign-up', async (req, res) => {
   const user = db.user.create(dto);
   await db.em.flush(); // no need for explicit `em.persist()` when we use `em.create()`
 
-  console.log(`User ${user.id} created`);
+  console.log(`User with Id: ${user.id} created successfully`);
+  res.status(201).json(user);
+});
 
+// Login existing user
+userRouter.post('/sign-in', async (req, res) => {
+  const db = await initORM();
+  const { email, password } = req.body as { email: string; password: string };
+  const user = await db.user.login(email, password);
   res.send(user);
 });
+
+// get('/profile')

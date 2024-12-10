@@ -23,7 +23,7 @@ export async function bootstrap(port = 3000) {
     RequestContext.create(db.em, next); // Create a new DB context for each request
   });
 
-  app.use(userRouter);
+  app.use('/user', userRouter);
 
   // app.get('/user', async (req, res) => {
   //   const user = await db.em.findOneOrFail(User, 1);
