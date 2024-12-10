@@ -32,9 +32,15 @@ userRouter.post('/sign-up', async (req, res) => {
 // Login existing user
 userRouter.post('/sign-in', async (req, res) => {
   const db = await initORM();
-  const { email, password } = req.body as { email: string; password: string };
-  const user = await db.user.login(email, password);
-  res.send(user);
+  const { email, password } = req.body as { email: string; password: string }; // what if one of these is null?
+  try {
+    const user = await db.user.login(email, password);
+  } catch (err) {
+    res.status(401).json({ message: 'Invalid email address or password' });
+  }
 });
 
-// get('/profile')
+// // get('/profile')
+// userRouter.get('/profile', (req, res) => {
+//   res.send('profile');
+// });
